@@ -1,135 +1,336 @@
-/* ── CONFIG ── */
-const WA = '250785234933';
-const CAFE = 'Akabaraza Café';
+const WA = "250700000000",
+  CAFE = "Akabaraza Café";
 
-/* ── NAV ── */
-const nav = document.getElementById('mainNav');
-window.addEventListener('scroll', () => nav.classList.toggle('stuck', scrollY > 60));
+/* NAV */
+window.addEventListener("scroll", () =>
+  document.getElementById("navbar").classList.toggle("solid", scrollY > 70),
+);
+function toggleMob() {
+  document.getElementById("mobMenu").classList.toggle("open");
+}
 
-/* ── MOBILE MENU ── */
-function closeMob(){ document.getElementById('mobMenu').classList.remove('on') }
-
-/* ── SMOOTH SCROLL ── */
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const href = a.getAttribute('href');
-    if(!href || href === '#') return;
-    const t = document.querySelector(href);
-    if(t){ e.preventDefault(); t.scrollIntoView({ behavior:'smooth' }); }
+/* CURSOR */
+const cur = document.getElementById("cur"),
+  ring = document.getElementById("curRing");
+document.addEventListener("mousemove", (e) => {
+  cur.style.left = e.clientX + "px";
+  cur.style.top = e.clientY + "px";
+  ring.style.left = e.clientX + "px";
+  ring.style.top = e.clientY + "px";
+});
+document.querySelectorAll("a,button,.gi,.bento-card").forEach((el) => {
+  el.addEventListener("mouseenter", () => {
+    ring.style.width = "60px";
+    ring.style.height = "60px";
+    ring.style.borderColor = "rgba(200,104,42,.6)";
+  });
+  el.addEventListener("mouseleave", () => {
+    ring.style.width = "40px";
+    ring.style.height = "40px";
+    ring.style.borderColor = "rgba(200,104,42,.35)";
   });
 });
 
-/* ── MENU DATA ── */
-const MENU = [
-  { id:1,  name:'Full Rwandan Brunch Platter', cat:'brunch',    price:'RWF 9,500',  num:9500,  desc:'Eggs your way, fried plantain, isombe, ibitoki, fresh juice & house bread', img:'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500&q=75', badge:'Bestseller' },
-  { id:2,  name:'Avocado & Egg Toast',          cat:'breakfast', price:'RWF 5,200',  num:5200,  desc:'Sourdough, smashed local avocado, poached egg, chili flakes & microgreens',  img:'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&q=75', badge:'' },
-  { id:3,  name:'Plantain Pancakes',            cat:'breakfast', price:'RWF 4,500',  num:4500,  desc:'Fluffy ripe plantain pancakes, honey drizzle, mixed berries & whipped cream', img:'https://images.unsplash.com/photo-1528207776546-365bb710ee93?w=500&q=75', badge:'' },
-  { id:4,  name:'Rwandan Arabica Pour Over',    cat:'drinks',    price:'RWF 2,800',  num:2800,  desc:'Single-origin Eastern Province coffee, hand-poured to order',                 img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&q=75', badge:'Local' },
-  { id:5,  name:'Hibiscus & Ginger Spritz',     cat:'drinks',    price:'RWF 2,200',  num:2200,  desc:'House-made hibiscus syrup, fresh ginger, sparkling water, mint — non-alcoholic', img:'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500&q=75', badge:'New' },
-  { id:6,  name:'Café Latte — Rwandan Milk',    cat:'drinks',    price:'RWF 2,500',  num:2500,  desc:'Double espresso, steamed local fresh milk, optional flavour syrups',           img:'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=75', badge:'' },
-  { id:7,  name:'Isombe & Cheese Wrap',         cat:'bites',     price:'RWF 4,000',  num:4000,  desc:'Cassava leaves, melted local cheese, tomato chutney in a soft flour wrap',    img:'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=500&q=75', badge:'Vegan' },
-  { id:8,  name:'Passion Fruit Cheesecake',     cat:'sweets',    price:'RWF 3,800',  num:3800,  desc:'Creamy no-bake cheesecake, fresh passion fruit curd, digestive crust',         img:'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&q=75', badge:'' },
-  { id:9,  name:'Ibitoki ya Shuke (Sweet Fries)',cat:'bites',    price:'RWF 3,200',  num:3200,  desc:'Sweet plantain fries, spiced aioli, fresh herbs — a Rwandan street-food twist', img:'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=500&q=75', badge:'Popular' },
-];
-
-/* ── SCROLL REVEAL OBSERVER — declared here so renderMenu can use it ── */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(e.isIntersecting){ e.target.classList.add('vis'); observer.unobserve(e.target); }
+/* SMOOTH SCROLL */
+document.querySelectorAll('a[href^="#"]').forEach((a) => {
+  a.addEventListener("click", (e) => {
+    const t = document.querySelector(a.getAttribute("href"));
+    if (t) {
+      e.preventDefault();
+      t.scrollIntoView({ behavior: "smooth" });
+    }
   });
-}, { threshold: 0.08 });
+});
 
-/* ── RENDER MENU ── */
-function renderMenu(cat){
-  const grid = document.getElementById('menuGrid');
-  const list = cat === 'all' ? MENU : MENU.filter(i => i.cat === cat);
-  grid.innerHTML = list.map(item => `
-    <div class="mc rv">
-      <div class="mc-img">
-        <img src="${item.img}" alt="${item.name}" loading="lazy"/>
-        ${item.badge ? `<span class="mc-badge">${item.badge}</span>` : ''}
-      </div>
-      <div class="mc-body">
-        <div class="mc-cat">${item.cat.charAt(0).toUpperCase()+item.cat.slice(1)}</div>
-        <div class="mc-name">${item.name}</div>
-        <div class="mc-desc">${item.desc}</div>
-        <div class="mc-foot">
-          <span class="mc-price">${item.price}</span>
-          <button class="order-btn" onclick="openModal(${item.id})">
-            <i class="fab fa-whatsapp"></i> Order
-          </button>
+/* MENU DATA */
+const MD = {
+  coffee: [
+    {
+      n: "Rwandan Arabica Pour Over",
+      d: "Single-origin Rwandan beans, slow-dripped to perfection — bright citrus notes with honey finish",
+      p: "RWF 3,000",
+      img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&q=75",
+      t: "Signature",
+    },
+    {
+      n: "Signature Café Latte",
+      d: "Double espresso with velvety steamed milk and seasonal latte art",
+      p: "RWF 3,500",
+      img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=75",
+      t: "Favourite",
+    },
+    {
+      n: "Ethiopian Cold Brew",
+      d: "24-hour cold-steeped East African blend — smooth, chocolatey, naturally sweet",
+      p: "RWF 4,000",
+      img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=75",
+      t: "Cold",
+    },
+  ],
+  food: [
+    {
+      n: "Avocado Toast with Isombe Pesto",
+      d: "Toasted sourdough, ripe Rwandan avocado, house-made cassava leaf pesto, chili flakes",
+      p: "RWF 6,500",
+      img: "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?w=500&q=75",
+      t: "Vegan",
+    },
+    {
+      n: "Rwandan Breakfast Plate",
+      d: "Fried egg, sautéed plantain, avocado, beans, fresh tomato relish",
+      p: "RWF 7,500",
+      img: "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&q=75",
+      t: "Classic",
+    },
+    {
+      n: "Club Sandwich & Chips",
+      d: "Triple-decker with grilled chicken, local cheese, tomato, lettuce, house sauce",
+      p: "RWF 8,500",
+      img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&q=75",
+      t: "Popular",
+    },
+  ],
+  pastries: [
+    {
+      n: "Honey Glazed Mandazi",
+      d: "Traditional Rwandan fried dough with local bee honey glaze and cinnamon sugar",
+      p: "RWF 1,500",
+      img: "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=500&q=75",
+      t: "Local",
+    },
+    {
+      n: "Passion Fruit Croissant",
+      d: "Buttery Viennoiserie filled with local passion fruit curd and whipped cream",
+      p: "RWF 3,200",
+      img: "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=500&q=75",
+      t: "Seasonal",
+    },
+    {
+      n: "Chocolate Brownie",
+      d: "Dark Rwandan cacao, salted caramel drizzle, served warm with vanilla cream",
+      p: "RWF 2,800",
+      img: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=500&q=75",
+      t: "Favourite",
+    },
+  ],
+  cold: [
+    {
+      n: "Hibiscus Lemonade",
+      d: "Fresh hibiscus flowers, lemon, mint, honey — served iced",
+      p: "RWF 2,500",
+      img: "https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500&q=75",
+      t: "Refreshing",
+    },
+    {
+      n: "Mango Smoothie",
+      d: "Three local mango varieties, banana, passion fruit, no added sugar",
+      p: "RWF 3,500",
+      img: "https://images.unsplash.com/photo-1497034825429-c343d7c6a68f?w=500&q=75",
+      t: "Vegan",
+    },
+    {
+      n: "Iced Spiced Chai",
+      d: "East African masala chai concentrate, oat milk, cinnamon, cardamom, over ice",
+      p: "RWF 3,000",
+      img: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=75",
+      t: "Spiced",
+    },
+  ],
+};
+
+function renderMenu(tab) {
+  document.getElementById("bentoGrid").innerHTML = MD[tab]
+    .map(
+      (i) => `
+    <div class="bento-card">
+      <div class="bc-img"><img src="${i.img}" alt="${i.n}" loading="lazy"/><span class="bc-badge">${i.t}</span></div>
+      <div class="bc-body">
+        <div class="bc-name">${i.n}</div>
+        <div class="bc-desc">${i.d}</div>
+        <div class="bc-foot">
+          <span class="bc-price">${i.p}</span>
+          <button class="bc-order" onclick="orderItem('${i.n.replace(/'/g, "\\'")}','${i.p}','${i.d.replace(/'/g, "\\'")}')"><i class="fab fa-whatsapp"></i> Order</button>
         </div>
       </div>
-    </div>
-  `).join('');
-  grid.querySelectorAll('.rv').forEach(el => observer.observe(el));
+    </div>`,
+    )
+    .join("");
 }
-renderMenu('all');
-
-/* ── FILTER TABS ── */
-document.getElementById('tabs').addEventListener('click', e => {
-  if(!e.target.classList.contains('tab')) return;
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
-  e.target.classList.add('on');
-  renderMenu(e.target.dataset.cat);
+renderMenu("coffee");
+document.getElementById("menuTabs").addEventListener("click", (e) => {
+  if (!e.target.classList.contains("mtab")) return;
+  document
+    .querySelectorAll(".mtab")
+    .forEach((b) => b.classList.remove("active"));
+  e.target.classList.add("active");
+  renderMenu(e.target.dataset.tab);
 });
 
-/* ── MODAL ── */
-let currentItem = null;
-
-function openModal(id){
-  currentItem = MENU.find(i => i.id === id);
-  document.getElementById('mThumb').src   = currentItem.img;
-  document.getElementById('mName').textContent  = currentItem.name;
-  document.getElementById('mPrice').textContent = currentItem.price;
-  document.getElementById('mCustomer').value    = '';
-  document.getElementById('mQty').value         = '1';
-  document.getElementById('mNote').value        = '';
-  refreshLink();
-  document.getElementById('oModal').classList.add('on');
-  document.body.style.overflow = 'hidden';
+function orderItem(name, price, desc) {
+  const msg = `Hello ${CAFE}! 👋\n\n☕ *ORDER REQUEST*\n━━━━━━━━━━━━\n🍽️  *${name}*\n📋  ${desc}\n💰  ${price}\n━━━━━━━━━━━━\nPlease confirm my order. Thank you! 🙏`;
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
-function closeModal(){
-  document.getElementById('oModal').classList.remove('on');
-  document.body.style.overflow = '';
+function downloadMenuWA() {
+  const msg = `Hello ${CAFE}! 👋\n\nI'd like to receive the *complete menu* — all items, prices & seasonal specials — on WhatsApp. Thank you! 🙏`;
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
-function refreshLink(){
-  if(!currentItem) return;
-  const name  = document.getElementById('mCustomer').value.trim() || 'Customer';
-  const qty   = parseInt(document.getElementById('mQty').value);
-  const note  = document.getElementById('mNote').value.trim();
-  const total = (currentItem.num * qty).toLocaleString();
-
-  document.getElementById('mTotal').textContent = `RWF ${total}`;
-
-  /* Prefilled WhatsApp message */
-  let msg = `Hello ${CAFE}! 👋\n\n`;
-  msg += `🛒 *ORDER REQUEST*\n`;
-  msg += `━━━━━━━━━━━━━━━━━\n`;
-  msg += `🍽️  *${currentItem.name}*\n`;
-  msg += `🔢  Qty: ${qty} portion${qty > 1 ? 's':''}\n`;
-  msg += `💰  Unit: ${currentItem.price}\n`;
-  msg += `💵  Total: RWF ${total}\n`;
-  if(note) msg += `📝  Notes: ${note}\n`;
-  msg += `━━━━━━━━━━━━━━━━━\n`;
-  msg += `👤  Name: ${name}\n\n`;
-  msg += `Please confirm my order. Thank you! 🙏`;
-
-  document.getElementById('mWaLink').href =
-    `https://wa.me/${WA}?text=${encodeURIComponent(msg)}`;
+function submitContact(e) {
+  e.preventDefault();
+  const name = document.getElementById("cfName").value.trim();
+  const phone = document.getElementById("cfPhone").value.trim();
+  const subject = document.getElementById("cfSubject").value.trim();
+  const msg = document.getElementById("cfMsg").value.trim();
+  let wa = `Hello ${CAFE}! 👋\n\n📩 *NEW MESSAGE*\n━━━━━━━━━━━━\n👤  Name: ${name}\n`;
+  if (phone) wa += `📱  Phone: ${phone}\n`;
+  if (subject) wa += `📌  Subject: ${subject}\n`;
+  wa += `💬  Message: ${msg}\n━━━━━━━━━━━━\nThank you! 🙏`;
+  window.open(`https://wa.me/${WA}?text=${encodeURIComponent(wa)}`, "_blank");
 }
 
-/* live update as user types */
-['mCustomer','mQty','mNote'].forEach(id =>
-  document.getElementById(id).addEventListener('input', refreshLink)
+/* ═══ IMMERSIVE LIGHTBOX ═══ */
+const IMGS = [
+  {
+    src: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1600&q=85",
+    alt: "Latte Art",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=85",
+    alt: "Coffee Beans",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1800&q=85",
+    alt: "Café Interior",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=1600&q=85",
+    alt: "Artisan Pastries",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=1600&q=85",
+    alt: "Cold Brew",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?w=1600&q=85",
+    alt: "Avocado Toast",
+  },
+  {
+    src: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=1600&q=85",
+    alt: "Signature Drinks",
+  },
+];
+let lbCur = 0;
+function buildStrip() {
+  document.getElementById("lbStrip").innerHTML = IMGS.map(
+    (img, i) => `
+    <div class="lb-thumb${i === lbCur ? " active" : ""}" onclick="lbGo(${i})">
+      <img src="${img.src.replace(/w=\d+/, "w=80")}" alt="${img.alt}" loading="lazy"/>
+    </div>`,
+  ).join("");
+}
+function lbUpdateBg() {
+  document.getElementById("lbBgBlur").style.backgroundImage =
+    `url('${IMGS[lbCur].src.replace(/w=\d+/, "w=400")}')`;
+}
+function lbUpdateProgress() {
+  document.getElementById("lbProgress").style.width =
+    `${((lbCur + 1) / IMGS.length) * 100}%`;
+}
+function lbGo(idx, dir = 0) {
+  const newIdx = ((idx % IMGS.length) + IMGS.length) % IMGS.length;
+  const el = document.getElementById("lbImg");
+  el.style.setProperty(
+    "--lb-dir",
+    dir > 0 ? "30px" : dir < 0 ? "-30px" : "0px",
+  );
+  el.classList.add("fade");
+  setTimeout(() => {
+    lbCur = newIdx;
+    el.src = IMGS[lbCur].src;
+    el.alt = IMGS[lbCur].alt;
+    document.getElementById("lbCap").textContent = IMGS[lbCur].alt;
+    document.getElementById("lbCounter").textContent =
+      `${lbCur + 1} / ${IMGS.length}`;
+    el.classList.remove("fade");
+    lbUpdateBg();
+    lbUpdateProgress();
+    document
+      .querySelectorAll(".lb-thumb")
+      .forEach((t, i) => t.classList.toggle("active", i === lbCur));
+    const s = document.getElementById("lbStrip");
+    if (s.children[lbCur])
+      s.children[lbCur].scrollIntoView({
+        block: "nearest",
+        inline: "center",
+        behavior: "smooth",
+      });
+  }, 280);
+}
+function openLightbox(idx) {
+  lbCur = idx;
+  const el = document.getElementById("lbImg");
+  el.src = IMGS[lbCur].src;
+  el.alt = IMGS[lbCur].alt;
+  document.getElementById("lbCap").textContent = IMGS[lbCur].alt;
+  document.getElementById("lbCounter").textContent =
+    `${lbCur + 1} / ${IMGS.length}`;
+  buildStrip();
+  lbUpdateBg();
+  lbUpdateProgress();
+  const bd = document.getElementById("lbBackdrop");
+  bd.style.display = "flex";
+  requestAnimationFrame(() => bd.classList.add("open"));
+  document.body.style.overflow = "hidden";
+}
+function closeLB() {
+  const bd = document.getElementById("lbBackdrop");
+  bd.classList.remove("open");
+  setTimeout(() => (bd.style.display = "none"), 350);
+  document.body.style.overflow = "";
+}
+document.getElementById("lbClose").onclick = closeLB;
+document.getElementById("lbPrev").onclick = () => lbGo(lbCur - 1, -1);
+document.getElementById("lbNext").onclick = () => lbGo(lbCur + 1, 1);
+document.getElementById("lbBackdrop").addEventListener("click", (e) => {
+  if (e.target === document.getElementById("lbBackdrop")) closeLB();
+});
+document.addEventListener("keydown", (e) => {
+  if (document.getElementById("lbBackdrop").style.display !== "flex") return;
+  if (e.key === "ArrowLeft") lbGo(lbCur - 1, -1);
+  if (e.key === "ArrowRight") lbGo(lbCur + 1, 1);
+  if (e.key === "Escape") closeLB();
+});
+let lbTouchX = null;
+document.getElementById("lbBackdrop").addEventListener(
+  "touchstart",
+  (e) => {
+    lbTouchX = e.touches[0].clientX;
+  },
+  { passive: true },
 );
-
-/* backdrop click closes */
-document.getElementById('oModal').addEventListener('click', e => {
-  if(e.target === document.getElementById('oModal')) closeModal();
+document.getElementById("lbBackdrop").addEventListener("touchend", (e) => {
+  if (lbTouchX === null) return;
+  const dx = e.changedTouches[0].clientX - lbTouchX;
+  if (Math.abs(dx) > 50) {
+    dx < 0 ? lbGo(lbCur + 1, 1) : lbGo(lbCur - 1, -1);
+  }
+  lbTouchX = null;
 });
+document
+  .querySelectorAll(".gi")
+  .forEach((el, i) => el.addEventListener("click", () => openLightbox(i)));
 
-/* observe all static .rv elements */
-document.querySelectorAll('.rv').forEach(el => observer.observe(el));
+/* SCROLL REVEAL */
+const rv = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add("revealed");
+        rv.unobserve(e.target);
+      }
+    });
+  },
+  { threshold: 0.1 },
+);
+document.querySelectorAll(".fade-up").forEach((el) => rv.observe(el));

@@ -1,444 +1,392 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Akabaraza Café — Kigali</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Akabaraza Café — Kigali</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,500;0,700;1,300;1,500&family=DM+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- ═══ ORDER MODAL ═══ -->
-<div class="modal-bg" id="oModal">
-  <div class="modal">
-    <div class="modal-head">
-      <img class="modal-thumb" id="mThumb" src="" alt=""/>
-      <div class="modal-head-info">
-        <h3 id="mName">—</h3>
-        <div class="m-price" id="mPrice">—</div>
-      </div>
-      <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-body">
-      <label>Your Name</label>
-      <input type="text" id="mCustomer" placeholder="e.g. Alice Uwase"/>
-      <label>Quantity</label>
-      <select id="mQty">
-        <option value="1">1 portion</option>
-        <option value="2">2 portions</option>
-        <option value="3">3 portions</option>
-        <option value="4">4 portions</option>
-        <option value="5">5 portions</option>
-      </select>
-      <div class="total-bar">
-        <span>Order Total</span>
-        <strong id="mTotal">—</strong>
-      </div>
-      <label>Special Requests <span style="font-weight:300;text-transform:none;letter-spacing:0;font-size:.75rem">(optional)</span></label>
-      <textarea id="mNote" placeholder="e.g. No onions, extra sauce, takeaway…"></textarea>
-      <div class="modal-actions">
-        <button class="m-cancel" onclick="closeModal()">Cancel</button>
-        <a class="m-wa" id="mWaLink" href="#" target="_blank">
-          <i class="fab fa-whatsapp"></i> Send Order
-        </a>
-      </div>
-    </div>
+  <div class="cursor" id="cur"></div>
+  <div class="cursor-ring" id="curRing"></div>
+
+  <a href="https://wa.me/250700000000?text=Hello%20Akabaraza%20Café!%20I'd%20like%20to%20place%20an%20order%20🛒"
+    target="_blank" class="wa-float" aria-label="Order via WhatsApp"><i class="fab fa-whatsapp"></i></a>
+
+  <div class="mob-menu" id="mobMenu">
+    <span class="mob-close" onclick="toggleMob()">&times;</span>
+    <a href="#about" onclick="toggleMob()">About</a>
+    <a href="#menu" onclick="toggleMob()">Menu</a>
+    <a href="#gallery" onclick="toggleMob()">Gallery</a>
+    <a href="#contact" onclick="toggleMob()">Contact</a>
   </div>
-</div>
 
-<!-- FLOATING WA -->
-<a href="https://wa.me/250785234933?text=Hello%20Akabaraza!" target="_blank" class="wa-float" aria-label="WhatsApp">
-  <i class="fab fa-whatsapp"></i>
-</a>
+  <nav id="navbar">
+    <a href="#" class="logo">Akabaraza<span class="logo-dot">.</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#gallery">Gallery</a></li>
+      <li><a href="#contact" class="nav-cta">Order Now</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMob()"><span></span><span></span><span></span></div>
+  </nav>
 
-<!-- MOBILE MENU -->
-<div class="mob" id="mobMenu">
-  <span class="mob-x" onclick="closeMob()">&times;</span>
-  <a href="#about"    onclick="closeMob()">About</a>
-  <a href="#menu"     onclick="closeMob()">Menu</a>
-  <a href="#gallery"  onclick="closeMob()">Gallery</a>
-  <a href="#specials" onclick="closeMob()">Specials</a>
-  <a href="#contact"  onclick="closeMob()">Contact</a>
-</div>
-
-<!-- ─── NAV ─── -->
-<nav id="mainNav">
-  <a href="#" class="nav-logo">Akabaraza<span>.</span></a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#menu">Menu</a></li>
-    <li><a href="#gallery">Gallery</a></li>
-    <li><a href="#specials">Specials</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-  <a href="https://wa.me/250785234933" target="_blank" class="nav-cta"><i class="fab fa-whatsapp"></i> Order Now</a>
-  <div class="hamburger" onclick="document.getElementById('mobMenu').classList.add('on')">
-    <span></span><span></span><span></span>
-  </div>
-</nav>
-
-<!-- ─── HERO ─── -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-inner">
-    <!-- LEFT TEXT -->
-    <div class="hero-left">
-      <div class="hero-chip">Open Now · Kigali, Rwanda</div>
-      <h1 class="hero-h1">
-        Good food,<br>
-        <em>great mornings.</em><br>
-        All day long.
-      </h1>
-      <p class="hero-p">Kigali's favourite café for slow mornings, honest brunch, and exceptional Rwandan coffee — served from 7AM every single day.</p>
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content fade-up">
+      <div class="hero-tag">
+        <div class="tag-line"></div>Coffee Café · Kigali, Rwanda<div class="tag-line"></div>
+      </div>
+      <h1>Where Coffee<br>Becomes a <em>Ritual</em></h1>
+      <p class="hero-sub">Specialty Rwandan brews, artisan pastries, and a menu that celebrates local ingredients. Slow
+        mornings welcome. Every cup, a story.</p>
       <div class="hero-btns">
-        <a href="#menu"    class="btn-solid"><i class="fas fa-utensils"></i> See the Menu</a>
-        <a href="#contact" class="btn-line"><i class="fab fa-whatsapp"></i> Reserve a Spot</a>
+        <a href="#menu" class="btn-og"><i class="fas fa-utensils"></i> Explore Menu</a>
+        <a href="#contact" class="btn-ghost"><i class="fab fa-whatsapp"></i> Order Now</a>
       </div>
     </div>
-    <!-- RIGHT BENTO -->
-    <div class="hero-right">
-      <!-- photo spans both rows -->
-      <div class="hb hb-photo hb-span2" style="grid-row:1">
-        <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=900&q=80" alt="Brunch platter" style="height:200px"/>
-        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(28,28,30,.65),transparent 50%);border-radius:14px;"></div>
-        <div style="position:absolute;bottom:1rem;left:1rem;">
-          <div class="cell-label" style="font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--trp);margin-bottom:.2rem">Signature</div>
-          <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:#fff">Full Rwandan Brunch Platter</div>
-        </div>
-      </div>
-      <div class="hb hb-photo" style="grid-row:2">
-        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80" alt="Coffee" style="height:160px"/>
-      </div>
-      <div class="hb hb-hours" style="grid-row:2">
-        <div class="hb-open">Open Now</div>
-        <h4 class="hb-big" style="font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;color:#fff;line-height:1">4.9<span style="font-size:1rem;color:rgba(255,255,255,.5)">★</span></h4>
-        <div style="font-size:.7rem;color:rgba(255,255,255,.65)">340+ Google reviews</div>
-        <div style="font-size:.72rem;color:rgba(255,255,255,.55);margin-top:.4rem">Mon–Sun: 7AM – 11PM</div>
-      </div>
+    <div class="hero-badge"><span>Open Since</span><strong>2019</strong></div>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div><span>Scroll</span>
     </div>
-  </div>
-  <!-- STATS STRIP at bottom of hero -->
-  <div class="hero-stats">
-    <div class="hs-item">
-      <div class="hs-num">5+</div>
-      <div class="hs-label">Years in Kigali</div>
-    </div>
-    <div class="hs-item">
-      <div class="hs-num">60+</div>
-      <div class="hs-label">Menu Items</div>
-    </div>
-    <div class="hs-item">
-      <div class="hs-num">4.9★</div>
-      <div class="hs-label">Google Rating</div>
-    </div>
-    <div class="hs-item">
-      <div class="hs-num">7AM</div>
-      <div class="hs-label">Open Every Day</div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── ABOUT ─── -->
-<section class="sec" id="about">
-  <div class="sec-inner">
-    <div class="about-grid">
-      <div class="about-body rv">
-        <div class="eyebrow">Our Story</div>
-        <h2 class="sh">A café born from<br><em>love of mornings</em></h2>
-        <div class="sec-divider"></div>
-        <p>Akabaraza — meaning "welcome" in Kinyarwanda — opened in 2020 with one simple idea: a place where Kigali's people could start their day with intention. With a cup of single-origin Rwandan arabica and a plate of something made with care.</p>
-        <p>Every recipe on our menu has roots in Rwandan home cooking, reimagined for a modern café setting. We source our coffee from farms in the Eastern Province and our produce from weekly market runs across Kigali.</p>
-        <div class="chips">
-          <span class="chip">All-Day Brunch</span>
-          <span class="chip">Rwandan Arabica Coffee</span>
-          <span class="chip">Vegan Options</span>
-          <span class="chip">Free WiFi</span>
-          <span class="chip">Indoor & Outdoor Seating</span>
-          <span class="chip">Takeaway Available</span>
-          <span class="chip">Private Events</span>
-        </div>
-        <a href="#menu" class="btn-solid">Browse the Menu</a>
-      </div>
-      <div class="about-photos rv">
-        <div class="ap tall">
-          <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80" alt="Café interior"/>
-        </div>
-        <div class="ap">
-          <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80" alt="Food"/>
-        </div>
-        <div class="ap-stat">
-          <strong>5+</strong>
-          <span>Years Serving Kigali</span>
-        </div>
-      </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-inner">
+      <span class="hl">Akabaraza Café</span><span>·</span><span>Specialty Coffee</span><span>·</span><span
+        class="hl">Kigali Rwanda</span><span>·</span><span>Farm-to-Cup</span><span>·</span><span>Artisan
+        Pastries</span><span>·</span><span class="hl">Open Daily</span><span>·</span><span>MTN
+        MoMo</span><span>·</span><span>Airtel Money</span><span>·</span>
+      <span class="hl">Akabaraza Café</span><span>·</span><span>Specialty Coffee</span><span>·</span><span
+        class="hl">Kigali Rwanda</span><span>·</span><span>Farm-to-Cup</span><span>·</span><span>Artisan
+        Pastries</span><span>·</span><span class="hl">Open Daily</span><span>·</span><span>MTN
+        MoMo</span><span>·</span><span>Airtel Money</span><span>·</span>
     </div>
   </div>
-</section>
 
-<!-- ─── MENU ─── -->
-<section class="sec menu-sec" id="menu">
-  <div class="sec-inner">
-    <div class="menu-head">
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-inner">
+      <div class="about-visual fade-up">
+        <img class="about-img-a" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=800&q=80"
+          alt="Specialty coffee preparation" />
+        <img class="about-img-b" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80"
+          alt="Coffee beans" />
+        <div class="about-num"><strong>4.8</strong><span>Google</span></div>
+      </div>
+      <div class="about-text fade-up">
+        <div class="label">
+          <div class="label-line"></div>Our Story
+        </div>
+        <h2 class="serif">A Café Born from<br><em>Rwandan Coffee</em></h2>
+        <p class="body-p">Akabaraza — meaning "the welcome" in Kinyarwanda — was born from a simple belief: Rwanda grows
+          some of the world's finest coffee, and every cup should reflect that. From the terraced hills of the Western
+          Province to your cup, we trace every bean's journey.</p>
+        <p class="body-p">Our menu blends classic café favourites with Rwandan culinary traditions, from honey-glazed
+          mandazi to avocado toast with isombe pesto, alongside our signature cold brew lineup.</p>
+        <div class="feat-pills">
+          <span class="pill">Single-Origin Rwandan Coffee</span>
+          <span class="pill">Artisan Pastries Daily</span>
+          <span class="pill">Vegan &amp; Gluten-Free Options</span>
+          <span class="pill">Free Wi-Fi</span>
+          <span class="pill">Co-Working Friendly</span>
+        </div>
+        <a href="#menu" class="btn-og">See Our Menu</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MENU -->
+  <section class="menu-section" id="menu">
+    <div class="menu-top fade-up">
       <div>
-        <div class="eyebrow">What We Serve</div>
-        <h2 class="sh">The Menu — tap <em>Order</em><br>to send straight to WhatsApp</h2>
+        <div class="label">
+          <div class="label-line"></div>What We Serve
+        </div>
+        <h2 class="serif">Our <em>Menu</em></h2>
       </div>
-      <p class="menu-note">Every order opens WhatsApp with your details pre-filled. Ready to send in one tap.</p>
+      <p class="menu-desc">Tap <strong style="color:var(--og)">Order</strong> on any item — it goes straight to our
+        WhatsApp. We'll confirm in minutes.</p>
     </div>
-
-    <!-- FILTER TABS -->
-    <div class="tabs" id="tabs">
-      <button class="tab on" data-cat="all">All Items</button>
-      <button class="tab" data-cat="breakfast">Breakfast</button>
-      <button class="tab" data-cat="brunch">Brunch</button>
-      <button class="tab" data-cat="drinks">Drinks</button>
-      <button class="tab" data-cat="bites">Bites</button>
-      <button class="tab" data-cat="sweets">Sweets</button>
+    <div class="menu-tabs" id="menuTabs">
+      <button class="mtab active" data-tab="coffee">Coffee</button>
+      <button class="mtab" data-tab="food">All-Day Food</button>
+      <button class="mtab" data-tab="pastries">Pastries</button>
+      <button class="mtab" data-tab="cold">Cold Drinks</button>
     </div>
+    <div class="bento-grid" id="bentoGrid"></div>
 
-    <!-- MENU CARDS — rendered by JS -->
-    <div class="menu-grid" id="menuGrid"></div>
-  </div>
-</section>
-
-<!-- ─── GALLERY ─── -->
-<section class="sec gallery-sec" id="gallery">
-  <div class="sec-inner">
-    <div class="gallery-head">
-      <div>
-        <div class="eyebrow">The Atmosphere</div>
-        <h2 class="sh">Inside <em>Akabaraza</em></h2>
+    <!-- DOWNLOAD FULL MENU -->
+    <div class="menu-dl-bar fade-up">
+      <div class="dlb-text">
+        <h4>Want the complete menu?</h4>
+        <p>Get our full menu — all items, prices &amp; seasonal specials.</p>
       </div>
-      <div class="gallery-tag">Tag us on Instagram<br>@akabarazacafe</div>
+
+      <a href="https://drive.google.com/file/d/17jon_CjrjxVquU6D_GqHVNUFeI-WOEqK/view?usp=sharing"
+        style="color: white; text-decoration: none; background: #c8a96e;" class="btn-dl">Download full
+        menu</a>
+
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section class="gallery" id="gallery">
+    <div class="gallery-hd fade-up">
+      <div class="label" style="justify-content:center">
+        <div class="label-line" style="background:rgba(255,255,255,.3)"></div><span
+          style="color:rgba(255,255,255,.5)">Visual Story</span>
+        <div class="label-line" style="background:rgba(255,255,255,.3)"></div>
+      </div>
+      <h2 class="serif" style="color:var(--wh)">Moments at <em>Akabaraza</em></h2>
+      <p>Click any image to open the full gallery carousel</p>
     </div>
     <div class="gallery-grid">
-      <div class="gi gi-1"><img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=900&q=80" alt="Café"/><div class="gi-ov"><i class="fas fa-expand-alt"></i></div></div>
-      <div class="gi gi-2"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&q=80" alt="Coffee"/><div class="gi-ov"><i class="fas fa-expand-alt"></i></div></div>
-      <div class="gi gi-3"><img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=500&q=80" alt="Brunch"/><div class="gi-ov"><i class="fas fa-expand-alt"></i></div></div>
-      <div class="gi gi-4"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80" alt="Interior"/><div class="gi-ov"><i class="fas fa-expand-alt"></i></div></div>
-      <div class="gi gi-5"><img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=500&q=80" alt="Food"/><div class="gi-ov"><i class="fas fa-expand-alt"></i></div></div>
-      <div class="gi gi-6"><img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80" alt="Dish"/><div class="gi-ov"><i class="fas fa-expand-alt"></i></div></div>
+      <div class="gi tall"><img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=700&q=80"
+          alt="Latte Art" />
+        <div class="gi-overlay"><span>Latte Art</span></div>
+        <div class="gi-zoom"><i class="fas fa-expand-alt"></i></div>
+      </div>
+      <div class="gi"><img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80"
+          alt="Coffee Beans" />
+        <div class="gi-overlay"><span>Coffee Beans</span></div>
+        <div class="gi-zoom"><i class="fas fa-expand-alt"></i></div>
+      </div>
+      <div class="gi wide"><img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1000&q=80"
+          alt="Café Interior" />
+        <div class="gi-overlay"><span>Café Interior</span></div>
+        <div class="gi-zoom"><i class="fas fa-expand-alt"></i></div>
+      </div>
+      <div class="gi"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=600&q=80" alt="Pastries" />
+        <div class="gi-overlay"><span>Artisan Pastries</span></div>
+        <div class="gi-zoom"><i class="fas fa-expand-alt"></i></div>
+      </div>
+      <div class="gi"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600&q=80"
+          alt="Cold Brew" />
+        <div class="gi-overlay"><span>Cold Brew</span></div>
+        <div class="gi-zoom"><i class="fas fa-expand-alt"></i></div>
+      </div>
+      <div class="gi"><img src="https://images.unsplash.com/photo-1504753793650-d4a2b783c15e?w=600&q=80"
+          alt="Avocado Toast" />
+        <div class="gi-overlay"><span>Avocado Toast</span></div>
+        <div class="gi-zoom"><i class="fas fa-expand-alt"></i></div>
+      </div>
+      <div class="gi"><img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=80"
+          alt="Signature Drinks" />
+        <div class="gi-overlay"><span>Signature Drinks</span></div>
+        <div class="gi-zoom"><i class="fas fa-expand-alt"></i></div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── SPECIALS / BLOG ─── -->
-<section class="sec specials-sec" id="specials">
-  <div class="sec-inner">
-    <div class="specials-head">
-      <div>
-        <div class="eyebrow">What's On</div>
-        <h2 class="sh">Specials &amp; <em>Stories</em></h2>
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div style="max-width:1100px;margin:0 auto;text-align:center" class="fade-up">
+      <div class="label" style="justify-content:center">
+        <div class="label-line" style="background:rgba(255,255,255,.25)"></div><span
+          style="color:rgba(255,255,255,.4)">Guest Reviews</span>
+        <div class="label-line" style="background:rgba(255,255,255,.25)"></div>
       </div>
-      <a href="#" class="btn-outline">View All Posts</a>
+      <h2 class="serif" style="color:var(--wh)">What Our Guests <em>Say</em></h2>
     </div>
-    <div class="sp-grid">
-      <!-- BIG CARD -->
-      <div class="sp-card sp-big rv">
-        <div class="sp-img"><img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&q=80" alt="Harvest Table"/></div>
-        <div class="sp-body">
-          <div class="sp-tag">Chef's Special</div>
-          <h3>The Weekend Harvest Table</h3>
-          <p>Every Saturday &amp; Sunday we set a communal harvest table — a rotating spread of Rwandan seasonal dishes, freshly baked bread, local jams, and single-origin coffee. A shared experience for families and friends.</p>
-          <div class="sp-foot">
-            <span class="sp-date">Every Weekend · 9AM – 1PM</span>
-            <a href="#contact" class="sp-link">Reserve →</a>
-          </div>
-        </div>
-      </div>
-      <!-- SMALL CARDS -->
-      <div class="sp-card rv">
-        <div class="sp-img"><img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500&q=80" alt="Coffee"/></div>
-        <div class="sp-body">
-          <div class="sp-tag">Coffee Corner</div>
-          <h3>Eastern Province Single Origin — March Batch</h3>
-          <p>New micro-lot just arrived. Tasting notes: plum, hibiscus &amp; dark chocolate.</p>
-          <div class="sp-foot"><span class="sp-date">Limited Stock</span><a href="#menu" class="sp-link">Order →</a></div>
-        </div>
-      </div>
-      <div class="sp-card rv">
-        <div class="sp-img"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=500&q=80" alt="Brunch event"/></div>
-        <div class="sp-body">
-          <div class="sp-tag">Events</div>
-          <h3>Monthly Creative Brunch — April Edition</h3>
-          <p>Live acoustic music, pop-up art &amp; a special seasonal menu. Free entry, reservation recommended.</p>
-          <div class="sp-foot"><span class="sp-date">April 6 · 10AM</span><a href="#contact" class="sp-link">Reserve →</a></div>
-        </div>
-      </div>
-      <div class="sp-card rv">
-        <div class="sp-img"><img src="https://images.unsplash.com/photo-1544145945-f90425340c7e?w=500&q=80" alt="Hibiscus"/></div>
-        <div class="sp-body">
-          <div class="sp-tag">New on Menu</div>
-          <h3>Hibiscus &amp; Ginger Spritz</h3>
-          <p>House-made hibiscus syrup, fresh ginger, sparkling water &amp; mint. Zero alcohol, uniquely Rwandan.</p>
-          <div class="sp-foot"><span class="sp-date">Available Daily</span><a href="#menu" class="sp-link">Order →</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── TESTIMONIALS ─── -->
-<section class="sec testi-sec">
-  <div class="sec-inner">
-    <div class="testi-head">
-      <div class="eyebrow">Guest Reviews</div>
-      <h2 class="sh">People love <em>mornings here</em></h2>
-    </div>
-    <div class="testi-grid">
-      <div class="tc tc-accent rv">
+    <div class="testi-grid fade-up">
+      <div class="tc">
         <div class="tc-stars">★★★★★</div>
-        <p class="tc-q">"Akabaraza has completely replaced my home breakfast routine. I come here every weekday morning. The baristas know my order, the atmosphere is calm and creative, and the food is consistently excellent."</p>
+        <p class="tc-text">"The best latte I've had in Kigali, full stop. The space is warm and inviting, the Wi-Fi is
+          fast, and the avocado toast with isombe pesto is genuinely one of a kind."</p>
         <div class="tc-author">
-          <div class="tc-av">BM</div>
-          <div><div class="tc-name">Brigitte Mutesi</div><div class="tc-role">Regular Guest · Kigali</div></div>
+          <div class="tc-av">IM</div>
+          <div>
+            <div class="tc-name">Isabelle Mutoni</div>
+            <div class="tc-role">Regular Guest · Kigali</div>
+          </div>
         </div>
       </div>
-      <div class="tc rv">
+      <div class="tc">
         <div class="tc-stars">★★★★★</div>
-        <p class="tc-q">"The best flat white I've had in East Africa — made with Rwandan beans. Ordering on WhatsApp was so easy, my order was ready the moment I arrived."</p>
+        <p class="tc-text">"I come here for the cold brew and stay for the atmosphere. The staff know your name by your
+          second visit. That's rare — and the coffee is world class."</p>
         <div class="tc-author">
-          <div class="tc-av">KO</div>
-          <div><div class="tc-name">Kevin Odhiambo</div><div class="tc-role">Visiting Guest · Nairobi</div></div>
+          <div class="tc-av">AK</div>
+          <div>
+            <div class="tc-name">Amos Kagabo</div>
+            <div class="tc-role">Freelancer · Kigali</div>
+          </div>
         </div>
       </div>
-      <div class="tc rv">
+      <div class="tc">
         <div class="tc-stars">★★★★★</div>
-        <p class="tc-q">"We hosted our team offsite brunch here. The staff were incredibly welcoming, the food was beautifully presented, and the outdoor terrace on a sunny Kigali morning is just unmatched."</p>
+        <p class="tc-text">"Attended the brew masterclass — absolutely fascinating. Didn't realise how much craft goes
+          into Rwandan specialty coffee. Left with a bag of beans and a new obsession."</p>
         <div class="tc-author">
-          <div class="tc-av">PN</div>
-          <div><div class="tc-name">Patrick Nzabonimpa</div><div class="tc-role">Team Lead · Kigali Tech Hub</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── CONTACT + MAP ─── -->
-<section class="sec contact-sec" id="contact">
-  <div class="sec-inner">
-    <div class="contact-grid">
-      <!-- LEFT: INFO -->
-      <div class="rv">
-        <div class="eyebrow">Get In Touch</div>
-        <h2 class="sh">Reserve a table or<br><em>order ahead</em></h2>
-        <p>We welcome walk-ins daily, but for groups of 4+ we recommend reserving via WhatsApp. For takeaway, message us and your order will be ready on arrival — usually within 20 minutes.</p>
-
-        <div class="ci-list">
-          <div class="ci-row">
-            <div class="ci-icon"><i class="fab fa-whatsapp"></i></div>
-            <div class="ci-text"><strong>WhatsApp</strong><span>+250 700 000 000</span></div>
-          </div>
-          <div class="ci-row">
-            <div class="ci-icon"><i class="fas fa-phone"></i></div>
-            <div class="ci-text"><strong>Phone</strong><span>+250 700 000 000</span></div>
-          </div>
-          <div class="ci-row">
-            <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
-            <div class="ci-text"><strong>Address</strong><span>KN 4 Ave, Nyarutarama, Kigali</span></div>
-          </div>
-          <div class="ci-row">
-            <div class="ci-icon"><i class="fas fa-envelope"></i></div>
-            <div class="ci-text"><strong>Email</strong><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a2cac7cececde2c3c9c3c0c3d0c3d8c38cd0d5">[email&#160;protected]</a></span></div>
-          </div>
-        </div>
-
-        <a href="https://wa.me/250785234933?text=Hello!%20I'd%20like%20to%20reserve%20a%20table%20at%20Akabaraza%20Café." target="_blank" class="wa-big">
-          <i class="fab fa-whatsapp" style="font-size:1.2rem"></i> Chat With Us on WhatsApp
-        </a>
-
-        <!-- HOURS -->
-        <div class="hours-card">
-          <h4>Opening Hours</h4>
-          <div class="hr"><strong>Monday – Friday</strong><span>7:00 AM – 10:00 PM</span></div>
-          <div class="hr"><strong>Saturday</strong><span>7:00 AM – 11:00 PM</span></div>
-          <div class="hr"><strong>Sunday</strong><span>7:00 AM – 10:00 PM</span></div>
-          <div class="hr"><strong>Public Holidays</strong><span>8:00 AM – 9:00 PM</span></div>
-          <div class="pay-note"><strong>Payments accepted:</strong> Cash (RWF), MTN Mobile Money, Airtel Money, Visa &amp; Mastercard.</div>
-        </div>
-      </div>
-
-      <!-- RIGHT: MAP -->
-      <div class="rv">
-        <div class="map-wrap">
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63800.22942095785!2d30.01788!3d-1.94995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca6f9fa7d65ab%3A0x7f2cb4f2b67c60d8!2sKigali%2C%20Rwanda!5e0!3m2!1sen!2srw!4v1680000000000!5m2!1sen!2srw"
-            allowfullscreen="" loading="lazy" title="Akabaraza Location">
-          </iframe>
-          <div class="map-card">
-            <div class="map-card-text">
-              <h4>Akabaraza Café</h4>
-              <p>KN 4 Ave, Nyarutarama · Kigali, Rwanda</p>
-            </div>
-            <a href="https://maps.google.com" target="_blank" class="map-dir">
-              <i class="fas fa-location-arrow"></i> Get Directions
-            </a>
+          <div class="tc-av">SC</div>
+          <div>
+            <div class="tc-name">Sophie Chen</div>
+            <div class="tc-role">Travel Blogger · Singapore</div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ─── FOOTER ─── -->
-<footer>
-  <div class="footer-grid">
-    <div>
-      <a href="#" class="f-logo">Akabaraza<span>.</span></a>
-      <p class="f-desc">Kigali's favourite all-day café. Rwandan coffee, honest food, and a warm welcome — every single morning.</p>
-      <div class="f-socs">
-        <a href="#" class="f-soc"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="f-soc"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="f-soc"><i class="fab fa-tiktok"></i></a>
-        <a href="#" class="f-soc"><i class="fab fa-whatsapp"></i></a>
+  <!-- CONTACT / RESERVATION -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div class="contact-info fade-up">
+        <div class="label">
+          <div class="label-line"></div>Get in Touch
+        </div>
+        <h2 class="serif">Order, Book,<br>or Just <em>Say Hello</em></h2>
+        <p class="body-p">Send us a message via the form and it will arrive directly on our WhatsApp. We respond within
+          minutes during opening hours.</p>
+        <div class="ci-item">
+          <div class="ci-icon"><i class="fab fa-whatsapp"></i></div>
+          <div class="ci-text"><strong>WhatsApp</strong><span>+250 700 000 000</span></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="ci-text"><strong>Address</strong><span>KN 4 Ave, Nyamirambo · Kigali</span></div>
+        </div>
+        <div class="ci-item">
+          <div class="ci-icon"><i class="fas fa-envelope"></i></div>
+          <div class="ci-text"><strong>Email</strong><span>hello@akabaraza.rw</span></div>
+        </div>
+
+        <div class="label" style="margin-top:2rem">
+          <div class="label-line"></div>Opening Hours
+        </div>
+        <div class="hours-grid">
+          <div class="hr-row"><strong>Mon – Fri</strong><span>7:00 – 20:00</span></div>
+          <div class="hr-row"><strong>Saturday</strong><span>7:30 – 21:00</span></div>
+          <div class="hr-row"><strong>Sunday</strong><span>8:00 – 19:00</span></div>
+          <div class="hr-row"><strong>Public Holidays</strong><span>8:00 – 18:00</span></div>
+        </div>
+        <div class="pay-note">
+          <p><strong style="color:var(--dk)">We Accept:</strong> Cash (RWF), MTN Mobile Money, Airtel Money, Visa /
+            Mastercard.</p>
+        </div>
+      </div>
+      <div class="form-card fade-up">
+        <div class="form-title">Send a Message</div>
+        <p class="form-sub">Fill in the form below — your message will be sent directly to our WhatsApp for the fastest
+          response.</p>
+        <form onsubmit="submitContact(event)">
+          <div class="f-row">
+            <input class="f-input" id="cfName" type="text" placeholder="Your full name" required />
+            <input class="f-input" id="cfPhone" type="text" placeholder="Your WhatsApp number" />
+          </div>
+          <div class="f-group">
+            <input class="f-input" id="cfSubject" type="text"
+              placeholder="Subject (e.g. Order, Event booking, General)" />
+          </div>
+          <div class="f-group">
+            <textarea class="f-textarea" id="cfMsg" placeholder="Your message — what can we help you with?…"
+              required></textarea>
+          </div>
+          <button type="submit" class="f-submit"><i class="fab fa-whatsapp" style="font-size:1.2rem"></i> Send via
+            WhatsApp</button>
+        </form>
       </div>
     </div>
-    <div class="f-col">
-      <h5>Navigate</h5>
-      <ul>
-        <li><a href="#about">About Us</a></li>
-        <li><a href="#menu">Menu</a></li>
-        <li><a href="#gallery">Gallery</a></li>
-        <li><a href="#specials">Specials</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </div>
-    <div class="f-col">
-      <h5>Menu</h5>
-      <ul>
-        <li><a href="#menu">Breakfast</a></li>
-        <li><a href="#menu">All-Day Brunch</a></li>
-        <li><a href="#menu">Coffee &amp; Drinks</a></li>
-        <li><a href="#menu">Bites &amp; Snacks</a></li>
-        <li><a href="#menu">Sweet Things</a></li>
-      </ul>
-    </div>
-    <div class="f-col">
-      <h5>Contact</h5>
-      <ul>
-        <li><a href="tel:+250785234933">+250 700 000 000</a></li>
-        <li><a href="/cdn-cgi/l/email-protection#d0b8b5bcbcbf90b1bbb1b2b1a2b1aab1fea2a7"><span class="__cf_email__" data-cfemail="1179747d7d7e51707a70737063706b703f6366">[email&#160;protected]</span></a></li>
-        <li><a href="#">KN 4 Ave, Nyarutarama</a></li>
-        <li><a href="#">Kigali, Rwanda</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2025 Akabaraza Café · Kigali, Rwanda. All rights reserved. Developed by <a href="http://www.incisordigital.com" style="color: orange;">Incisor Digital</a></p>
-    <div class="pay-row">
-      <span style="font-size:.62rem;color:rgba(255,255,255,.2)">We accept:</span>
-      <span class="pbadge mtn">MTN MoMo</span>
-      <span class="pbadge air">Airtel Money</span>
-      <span class="pbadge">Visa / MC</span>
-    </div>
-  </div>
-</footer>
+  </section>
 
-<!-- ═══════════ JAVASCRIPT ═══════════ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-</script>
-<script src="script.js"></script>
+  <!-- MAP -->
+  <section class="map-section" id="location">
+    <div style="position:relative">
+      <div class="map-card">
+        <div class="label" style="margin-bottom:.8rem">
+          <div class="label-line" style="background:rgba(255,255,255,.3)"></div><span
+            style="color:rgba(255,255,255,.4)">Find Us</span>
+        </div>
+        <h3>Akabaraza Café</h3>
+        <p>KN 4 Ave, Nyamirambo<br>Kigali, Rwanda<br><br>Near Nyamirambo market. Free parking available in front.</p>
+        <a href="https://www.google.com/maps/search/Kigali+Rwanda" target="_blank" class="btn-og"><i
+            class="fas fa-map-marker-alt"></i> Get Directions</a>
+      </div>
+      <iframe class="map-frame"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63800.22942095785!2d30.01788!3d-1.94995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19dca6f9fa7d65ab%3A0x7f2cb4f2b67c60d8!2sKigali%2C%20Rwanda!5e0!3m2!1sen!2srw!4v1680000000000!5m2!1sen!2srw"
+        allowfullscreen loading="lazy" title="Akabaraza Café Location"></iframe>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">Akabaraza<span class="logo-dot">.</span></a>
+        <p>Where coffee becomes a ritual. Specialty Rwandan brews, artisan pastries and a menu that celebrates local
+          ingredients — in the heart of Kigali since 2019.</p>
+        <div class="footer-social">
+          <a href="#" class="soc"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="soc"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="soc"><i class="fab fa-tiktok"></i></a>
+          <a href="#" class="soc"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="fc">
+        <h5>Navigate</h5>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#gallery">Gallery</a></li>
+          <li><a href="#specials">Specials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h5>Menu</h5>
+        <ul>
+          <li><a href="#menu">Coffee</a></li>
+          <li><a href="#menu">All-Day Food</a></li>
+          <li><a href="#menu">Pastries</a></li>
+          <li><a href="#menu">Cold Drinks</a></li>
+          <li><a href="#contact">Full Menu on WA</a></li>
+        </ul>
+      </div>
+      <div class="fc">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="tel:+250700000000">+250 700 000 000</a></li>
+          <li><a href="mailto:hello@akabaraza.rw">hello@akabaraza.rw</a></li>
+          <li><a href="#location">KN 4 Ave, Nyamirambo</a></li>
+          <li><a href="#location">Kigali, Rwanda</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <p>© 2025 Akabaraza Café. All rights reserved. Kigali, Rwanda.</p>
+      <div class="momo"><span style="font-size:.65rem;color:rgba(255,255,255,.2)">We accept:</span><span
+          class="mb mtn">MTN MoMo</span><span class="mb air">Airtel Money</span><span class="mb">Visa / MC</span></div>
+    </div>
+  </footer>
+
+  <!-- LIGHTBOX CAROUSEL -->
+  <div id="lbBackdrop" class="lb-backdrop" role="dialog" aria-modal="true" aria-label="Image gallery">
+    <div class="lb-bg-blur" id="lbBgBlur"></div>
+    <div class="lb-topbar">
+      <span class="lb-counter" id="lbCounter"></span>
+      <span class="lb-caption-top" id="lbCap"></span>
+      <button class="lb-close" id="lbClose" aria-label="Close">&#10005;</button>
+    </div>
+    <div class="lb-stage">
+      <div class="lb-img-wrap">
+        <img id="lbImg" class="lb-img" src="" alt="" />
+      </div>
+      <button class="lb-arrow lb-prev" id="lbPrev" aria-label="Previous">&#8592;</button>
+      <button class="lb-arrow lb-next" id="lbNext" aria-label="Next">&#8594;</button>
+      <div class="lb-progress" id="lbProgress"></div>
+    </div>
+    <div class="lb-filmstrip" id="lbStrip"></div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
+
 </html>
